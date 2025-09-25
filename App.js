@@ -73,7 +73,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as Linking from 'expo-linking';
+// import * as Linking from 'expo-linking';
 
 // Import screens
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -99,29 +99,10 @@ import ResetPassword from './screens/ResetPassword';
 
 const Stack = createNativeStackNavigator();
 
-// Deep linking config
-const linking = {
-  prefixes: [
-    Linking.createURL('/'),        // for Expo dev
-    'https://myapp.com',           // your website URL
-    'myfirstexpoapp://',           // custom scheme
-  ],
-  config: {
-    screens: {
-      ResetPassword: 'reset-password/:token',
-      ForgotPassword: 'forgot-password',
-      Signup: 'signup',
-      Login: 'login',
-      Welcome: 'welcome',
-      Home: 'home',
-      // add other screens if you want to link them via URL
-    },
-  },
-};
 
 export default function App() {
   return (
-    <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+    <NavigationContainer  fallback={<Text>Loading...</Text>}>
       <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen name="Welcome" component={WelcomeScreen}  options={{ headerShown: false }}  />
         <Stack.Screen name="Signup" component={SignupScreen}  options={{ headerShown: false }}  />
