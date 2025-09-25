@@ -1,216 +1,5 @@
 
 
-
-// import React, { useState } from "react";
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   StyleSheet,
-//   Alert,
-//   ActivityIndicator,
-//   Platform,
-// } from "react-native";
-// import axios from "axios";
-// import { Picker } from "@react-native-picker/picker";
-
-// export default function SignupScreen({ navigation }) {
-//   const [form, setForm] = useState({
-//     name: "",
-//     email: "",
-//     phone: "",
-//     password: "",
-//     gender: "",
-//     religion: "",
-//     community: "",
-//     age: "",
-//     height: "",
-//   });
-//   const [loading, setLoading] = useState(false);
-
-//   const handleChange = (key, value) => setForm({ ...form, [key]: value });
-
-//   const handleSignup = async () => {
-//     const { name, email, phone, password, gender, age, height } = form;
-//     if (!name || !email || !phone || !password || !gender || !age || !height) {
-//       Alert.alert("Error", "Please fill all required fields");
-//       return;
-//     }
-
-//     setLoading(true);
-//     try {
-//       const baseURL = "https://shaadi-backend-9ljp.onrender.com";
-
-//       // Ensure age and height are numbers
-//       const payload = {
-//         ...form,
-//         age: Number(form.age),
-//         height: Number(form.height),
-//       };
-
-//       const res = await axios.post(`${baseURL}/api/auth/signup`, payload);
-
-//       Alert.alert("Success", "Signup successful! Please login.");
-//       navigation.navigate("Welcome");
-//     } catch (err) {
-//       console.log("Signup error:", err.response?.data || err.message);
-//       Alert.alert("Signup Failed", err.response?.data?.msg || err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Create Account</Text>
-
-//       {/* Name */}
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Full Name"
-//         value={form.name}
-//         onChangeText={(v) => handleChange("name", v)}
-//       />
-//       {/* Email */}
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Email"
-//         value={form.email}
-//         onChangeText={(v) => handleChange("email", v)}
-//         keyboardType="email-address"
-//       />
-//       {/* Phone */}
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Mobile No"
-//         value={form.phone}
-//         onChangeText={(v) => handleChange("phone", v)}
-//         keyboardType="phone-pad"
-//       />
-//       {/* Password */}
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Password"
-//         value={form.password}
-//         onChangeText={(v) => handleChange("password", v)}
-//         secureTextEntry
-//       />
-//       {/* Age & Height */}
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Age"
-//         value={form.age ? String(form.age) : ""}
-//         onChangeText={(v) => handleChange("age", v.replace(/[^0-9]/g, ""))}
-//         keyboardType="numeric"
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Height in cm"
-//         value={form.height ? String(form.height) : ""}
-//         onChangeText={(v) => handleChange("height", v.replace(/[^0-9]/g, ""))}
-//         keyboardType="numeric"
-//       />
-
-//       {/* Gender */}
-//       <View style={styles.pickerWrapper}>
-//         <Picker
-//           selectedValue={form.gender}
-//           onValueChange={(v) => handleChange("gender", v)}
-//           style={styles.picker}
-//         >
-//           <Picker.Item label="Select Gender" value="" />
-//           <Picker.Item label="Male" value="Male" />
-//           <Picker.Item label="Female" value="Female" />
-//         </Picker>
-//       </View>
-
-//       {/* Religion */}
-//       <View style={styles.pickerWrapper}>
-//         <Picker
-//           selectedValue={form.religion}
-//           onValueChange={(v) => handleChange("religion", v)}
-//           style={styles.picker}
-//         >
-//           <Picker.Item label="Select Religion" value="" />
-//           <Picker.Item label="Hindu" value="Hindu" />
-//           <Picker.Item label="Muslim" value="Muslim" />
-//           <Picker.Item label="Christian" value="Christian" />
-//           <Picker.Item label="Other" value="Other" />
-//         </Picker>
-//       </View>
-
-//       {/* Community */}
-//       <View style={styles.pickerWrapper}>
-//         <Picker
-//           selectedValue={form.community}
-//           onValueChange={(v) => handleChange("community", v)}
-//           style={styles.picker}
-//         >
-//           <Picker.Item label="Select Community" value="" />
-//           <Picker.Item label="General" value="General" />
-//           <Picker.Item label="OBC" value="OBC" />
-//           <Picker.Item label="SC" value="SC" />
-//           <Picker.Item label="ST" value="ST" />
-//           <Picker.Item label="Other" value="Other" />
-//         </Picker>
-//       </View>
-
-//       <TouchableOpacity
-//         style={styles.button}
-//         onPress={handleSignup}
-//         disabled={loading}
-//       >
-//         {loading ? (
-//           <ActivityIndicator color="#fff" />
-//         ) : (
-//           <Text style={styles.buttonText}>Sign Up</Text>
-//         )}
-//       </TouchableOpacity>
-
-//       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-//         <Text style={styles.link}>Already have an account? Login</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, justifyContent: "center", padding: 20, backgroundColor: "#fff" },
-//   title: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 30 },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: "#ccc",
-//     borderRadius: 8,
-//     padding: 12,
-//     marginBottom: 15,
-//     fontSize: 16,
-//     height: 50, // ✅ equal height for all text inputs
-//   },
-//   pickerWrapper: {
-//     borderWidth: 1,
-//     borderColor: "#ccc",
-//     borderRadius: 8,
-//     marginBottom: 15,
-//     justifyContent: "center",
-//     height: 50, // ✅ same height for pickers
-//   },
-//   picker: {
-//     height: 50, // ✅ ensures picker uses full height
-//     width: "100%",
-//   },
-//   button: {
-//     backgroundColor: "#E91E63",
-//     padding: 15,
-//     borderRadius: 8,
-//     alignItems: "center",
-//     marginBottom: 20,
-//   },
-//   buttonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
-//   link: { textAlign: "center", color: "#E91E63", marginTop: 10 },
-// });
-
-
 import React, { useState } from "react";
 import {
   View,
@@ -218,76 +7,101 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
   Alert,
-  ActivityIndicator,
 } from "react-native";
-import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
+import { Ionicons } from "@expo/vector-icons";
+import axios from "axios";
 
-export default function SignupScreen({ navigation }) {
-  const [form, setForm] = useState({
+const SignupScreen = ({ navigation }) => {
+  const [formData, setFormData] = useState({
     name: "",
+    gender: "",
+    age: 18,
+    religion: "",
+    community: "",
     email: "",
     phone: "",
     password: "",
-    gender: "",
-    religion: "",
-    community: "",
-    age: "",
-    height: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (key, value) => {
-    setForm({ ...form, [key]: value });
-    setErrors({ ...errors, [key]: "" }); // clear error when user types
+  
+
+
+  const religions = [
+  "Hindu",
+  "Muslim",
+  "Christian",
+  "Sikh",
+  "Buddhist",
+  "Jain",
+  "Parsi/Zoroastrian",
+  "Jewish",
+  "Other",
+];
+
+const communities = [
+  "Brahmin",
+  "Kshatriya",
+  "Vaishya",
+  "Shudra",
+  "Maratha",
+  "Reddy",
+  "Nair",
+  "Kayastha",
+  "Jat",
+  "Patel",
+  "Gupta",
+  "Rajput",
+  "Ezhava",
+  "Other",
+];
+
+
+  const handleChange = (field, value) => {
+    // Restrict phone to max 10 digits
+    if (field === "phone") {
+      if (/^\d{0,10}$/.test(value)) {
+        setFormData({ ...formData, [field]: value });
+      }
+    } else {
+      setFormData({ ...formData, [field]: value });
+    }
   };
 
   const validateForm = () => {
-    let valid = true;
     let newErrors = {};
 
-    if (!form.name.trim()) {
-      newErrors.name = "Name is required";
-      valid = false;
+    if (!formData.name.trim()) newErrors.name = "Full name is required";
+    if (!formData.gender) newErrors.gender = "Please select gender";
+    if (!formData.age) newErrors.age = "Age is required";
+    if (!formData.religion) newErrors.religion = "Please select religion";
+    if (!formData.community) newErrors.community = "Please select community";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      newErrors.email = "Invalid email format";
     }
-    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = "Enter a valid email";
-      valid = false;
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Mobile number is required";
+    } else if (formData.phone.length !== 10) {
+      newErrors.phone = "Mobile number must be 10 digits";
     }
-    if (!form.phone || !/^\d{10}$/.test(form.phone)) {
-      newErrors.phone = "Enter 10-digit phone number";
-      valid = false;
-    }
-    if (!form.password || form.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-      valid = false;
-    }
-    if (!form.age || Number(form.age) < 18 || Number(form.age) > 100) {
-      newErrors.age = "Age must be between 18 and 100";
-      valid = false;
-    }
-    if (!form.height || Number(form.height) < 100 || Number(form.height) > 250) {
-      newErrors.height = "Height must be between 100–250 cm";
-      valid = false;
-    }
-    if (!form.gender) {
-      newErrors.gender = "Please select gender";
-      valid = false;
-    }
-    if (!form.religion) {
-      newErrors.religion = "Please select religion";
-      valid = false;
-    }
-    if (!form.community) {
-      newErrors.community = "Please select community";
-      valid = false;
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     setErrors(newErrors);
-    return valid;
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSignup = async () => {
@@ -298,12 +112,11 @@ export default function SignupScreen({ navigation }) {
       const baseURL = "https://shaadi-backend-9ljp.onrender.com";
 
       const payload = {
-        ...form,
-        age: Number(form.age),
-        height: Number(form.height),
+        ...formData,
+        age: Number(formData.age),
       };
 
-      const res = await axios.post(`${baseURL}/api/auth/signup`, payload);
+      await axios.post(`${baseURL}/api/auth/signup`, payload);
 
       Alert.alert("Success", "Signup successful! Please login.");
       navigation.navigate("Welcome");
@@ -316,117 +129,210 @@ export default function SignupScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.heading}>Create Account</Text>
 
-      {/* Name */}
+      {/* Full Name */}
+      <Text style={styles.label}>
+         Name <Text style={styles.required}>*</Text>
+      </Text>
       <TextInput
-        style={[styles.input, errors.name && styles.inputError]}
-        placeholder="Full Name"
-        value={form.name}
-        onChangeText={(v) => handleChange("name", v)}
+        style={styles.input}
+        placeholder="Enter your full name"
+        value={formData.name}
+        onChangeText={(text) => handleChange("name", text)}
       />
-      {errors.name ? <Text style={styles.error}>{errors.name}</Text> : null}
+      {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
-      {/* Email */}
+
+      
+      <Text style={styles.label}>
+        Email <Text style={styles.required}>*</Text>
+      </Text>
       <TextInput
-        style={[styles.input, errors.email && styles.inputError]}
-        placeholder="Email"
-        value={form.email}
-        onChangeText={(v) => handleChange("email", v)}
+        style={styles.input}
+        placeholder="Enter your email"
         keyboardType="email-address"
+        value={formData.email}
+        onChangeText={(text) => handleChange("email", text)}
       />
-      {errors.email ? <Text style={styles.error}>{errors.email}</Text> : null}
+      {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
       {/* Phone */}
+      <Text style={styles.label}>
+        Mobile Number <Text style={styles.required}>*</Text>
+      </Text>
       <TextInput
-        style={[styles.input, errors.phone && styles.inputError]}
-        placeholder="Mobile No"
-        value={form.phone}
-        onChangeText={(v) => handleChange("phone", v.replace(/[^0-9]/g, ""))}
+        style={styles.input}
+        placeholder="Enter your mobile number"
         keyboardType="phone-pad"
+        value={formData.phone}
+        onChangeText={(text) => handleChange("phone", text)}
       />
-      {errors.phone ? <Text style={styles.error}>{errors.phone}</Text> : null}
+      {errors.phone && <Text style={styles.error}>{errors.phone}</Text>}
+
+{/*       
+      <Text style={styles.label}>
+        Password <Text style={styles.required}>*</Text>
+      </Text>
+      <View style={styles.passwordWrapper}>
+        <TextInput
+          style={[styles.input, { flex: 1, marginBottom: 0 }]}
+          placeholder="Enter your password"
+          secureTextEntry={!showPassword}
+          value={formData.password}
+          onChangeText={(text) => handleChange("password", text)}
+        />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          <Ionicons
+            name={showPassword ? "eye-off" : "eye"}
+            size={22}
+            color="#555"
+          />
+        </TouchableOpacity>
+      </View>
+      {errors.password && <Text style={styles.error}>{errors.password}</Text>} */}
+      
+
 
       {/* Password */}
-      <TextInput
-        style={[styles.input, errors.password && styles.inputError]}
-        placeholder="Password"
-        value={form.password}
-        onChangeText={(v) => handleChange("password", v)}
-        secureTextEntry
-      />
-      {errors.password ? <Text style={styles.error}>{errors.password}</Text> : null}
-
-      {/* Age */}
-      <TextInput
-        style={[styles.input, errors.age && styles.inputError]}
-        placeholder="Age"
-        value={form.age ? String(form.age) : ""}
-        onChangeText={(v) => handleChange("age", v.replace(/[^0-9]/g, ""))}
-        keyboardType="numeric"
-      />
-      {errors.age ? <Text style={styles.error}>{errors.age}</Text> : null}
-
-      {/* Height */}
-      <TextInput
-        style={[styles.input, errors.height && styles.inputError]}
-        placeholder="Height in cm"
-        value={form.height ? String(form.height) : ""}
-        onChangeText={(v) => handleChange("height", v.replace(/[^0-9]/g, ""))}
-        keyboardType="numeric"
-      />
-      {errors.height ? <Text style={styles.error}>{errors.height}</Text> : null}
+<Text style={styles.label}>
+  Password <Text style={styles.required}>*</Text>
+</Text>
+<View style={styles.passwordContainer}>
+  <TextInput
+    style={styles.passwordInput}
+    placeholder="Enter your password"
+    secureTextEntry={!showPassword}
+    value={formData.password}
+    onChangeText={(text) => handleChange("password", text)}
+  />
+  <TouchableOpacity
+    style={styles.eyeIcon}
+    onPress={() => setShowPassword(!showPassword)}
+  >
+    <Ionicons
+      name={showPassword ? "eye-off" : "eye"}
+      size={22}
+      color="#555"
+    />
+  </TouchableOpacity>
+</View>
+{errors.password && <Text style={styles.error}>{errors.password}</Text>}
 
       {/* Gender */}
-      <View style={[styles.pickerWrapper, errors.gender && styles.inputError]}>
-        <Picker selectedValue={form.gender} onValueChange={(v) => handleChange("gender", v)}>
+      <Text style={styles.label}>
+        Gender <Text style={styles.required}>*</Text>
+      </Text>
+      <View style={styles.pickerWrapper}>
+        <Picker
+          selectedValue={formData.gender}
+          onValueChange={(val) => handleChange("gender", val)}
+        >
           <Picker.Item label="Select Gender" value="" />
           <Picker.Item label="Male" value="Male" />
           <Picker.Item label="Female" value="Female" />
+          <Picker.Item label="Other" value="Other" />
         </Picker>
       </View>
-      {errors.gender ? <Text style={styles.error}>{errors.gender}</Text> : null}
+      {errors.gender && <Text style={styles.error}>{errors.gender}</Text>}
 
-      {/* Religion */}
-      <View style={[styles.pickerWrapper, errors.religion && styles.inputError]}>
-        <Picker selectedValue={form.religion} onValueChange={(v) => handleChange("religion", v)}>
+      {/* Age Dropdown */}
+      <Text style={styles.label}>
+        Age <Text style={styles.required}>*</Text>
+      </Text>
+      <View style={styles.pickerWrapper}>
+        <Picker
+          selectedValue={formData.age}
+          onValueChange={(val) => handleChange("age", val)}
+        >
+          {Array.from({ length: 43 }, (_, i) => {
+            const age = 18 + i;
+            return <Picker.Item key={age} label={`${age}`} value={age} />;
+          })}
+        </Picker>
+      </View>
+      {errors.age && <Text style={styles.error}>{errors.age}</Text>}
+
+      {/* Religion Dropdown */}
+      <Text style={styles.label}>
+        Religion <Text style={styles.required}>*</Text>
+      </Text>
+      <View style={styles.pickerWrapper}>
+        <Picker
+          selectedValue={formData.religion}
+          onValueChange={(val) => handleChange("religion", val)}
+        >
           <Picker.Item label="Select Religion" value="" />
-          <Picker.Item label="Hindu" value="Hindu" />
-          <Picker.Item label="Muslim" value="Muslim" />
-          <Picker.Item label="Christian" value="Christian" />
-          <Picker.Item label="Other" value="Other" />
+          {religions.map((r) => (
+            <Picker.Item key={r} label={r} value={r} />
+          ))}
         </Picker>
       </View>
-      {errors.religion ? <Text style={styles.error}>{errors.religion}</Text> : null}
+      {errors.religion && <Text style={styles.error}>{errors.religion}</Text>}
 
-      {/* Community */}
-      <View style={[styles.pickerWrapper, errors.community && styles.inputError]}>
-        <Picker selectedValue={form.community} onValueChange={(v) => handleChange("community", v)}>
+      {/* Community Dropdown */}
+      <Text style={styles.label}>
+        Community / Caste <Text style={styles.required}>*</Text>
+      </Text>
+      <View style={styles.pickerWrapper}>
+        <Picker
+          selectedValue={formData.community}
+          onValueChange={(val) => handleChange("community", val)}
+        >
           <Picker.Item label="Select Community" value="" />
-          <Picker.Item label="General" value="General" />
-          <Picker.Item label="OBC" value="OBC" />
-          <Picker.Item label="SC" value="SC" />
-          <Picker.Item label="ST" value="ST" />
-          <Picker.Item label="Other" value="Other" />
+          {communities.map((c) => (
+            <Picker.Item key={c} label={c} value={c} />
+          ))}
         </Picker>
       </View>
-      {errors.community ? <Text style={styles.error}>{errors.community}</Text> : null}
+      {errors.community && <Text style={styles.error}>{errors.community}</Text>}
 
-      <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading}>
-        {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Sign Up</Text>}
+      
+
+      {/* Submit Button */}
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>
+          {loading ? "Signing Up..." : "Sign Up"}
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.link}>Already have an account? Login</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.loginContainer}>
+  <Text style={styles.loginText}>Already have an account? </Text>
+  <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+    <Text style={styles.loginLink}>Login</Text>
+  </TouchableOpacity>
+</View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20, backgroundColor: "#fff" },
-  title: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 30 },
+  container: {
+    padding: 20,
+    flexGrow: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+  },
+  heading: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#333",
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 5,
+    color: "#444",
+  },
+  required: {
+    color: "red",
+  },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -434,25 +340,82 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 5,
     fontSize: 16,
-    height: 50,
   },
-  inputError: { borderColor: "red" },
   pickerWrapper: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     marginBottom: 5,
-    justifyContent: "center",
-    height: 50,
+  },
+  // passwordWrapper: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   borderWidth: 1,
+  //   borderColor: "#ccc",
+  //   borderRadius: 8,
+  //   marginBottom: 5,
+  // },
+  // eyeIcon: {
+  //   paddingHorizontal: 12,
+  // },
+
+
+  passwordContainer: {
+  position: "relative",
+  marginBottom: 5,
+},
+
+passwordInput: {
+  borderWidth: 1,
+  borderColor: "#ccc",
+  borderRadius: 8,
+  padding: 12,
+  paddingRight: 40, // space for the eye icon
+  fontSize: 16,
+},
+
+eyeIcon: {
+  position: "absolute",
+  right: 10,
+  top: "50%",
+  transform: [{ translateY: -11 }], // vertically center the icon
+},
+
+  error: {
+    color: "red",
+    marginBottom: 10,
+    fontSize: 13,
   },
   button: {
-    backgroundColor: "#E91E63",
+    backgroundColor: "#00bcd5",
     padding: 15,
     borderRadius: 8,
-    alignItems: "center",
-    marginTop: 15,
+    marginTop: 10,
   },
-  buttonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
-  link: { textAlign: "center", color: "#E91E63", marginTop: 10 },
-  error: { color: "red", fontSize: 13, marginBottom: 8, marginLeft: 5 },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+
+  loginContainer: {
+  flexDirection: "row",
+  justifyContent: "center",
+  marginTop: 15,
+},
+
+loginText: {
+  color: "#444",
+  fontSize: 14,
+},
+
+loginLink: {
+  color: "#00bcd5",
+  fontSize: 14,
+  fontWeight: "bold",
+},
+
 });
+
+export default SignupScreen;

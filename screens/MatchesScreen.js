@@ -410,7 +410,7 @@ const handleCancelRequest = async (profile) => {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: "#fff",marginTop: 40 },
   tabs: {
     flexDirection: "row",
     backgroundColor: "#f8f8f8",

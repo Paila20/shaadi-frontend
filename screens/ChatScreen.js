@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ddd",
     backgroundColor: "#f8f8f8",
+    marginTop:40,
   },
   chatImage: { width: 50, height: 50, borderRadius: 25, marginRight: 10 },
   chatName: { fontSize: 18, fontWeight: "bold", color: "#333" },

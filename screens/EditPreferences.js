@@ -798,7 +798,7 @@ function Dropdown({ label, selectedValue, onValueChange, items }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: { flex: 1, padding: 20 ,marginVertical:40},
   header: { fontSize: 22, fontWeight: "bold", marginBottom: 10 },
   userInfo: { marginBottom: 10 },
   userName: { fontSize: 18, fontWeight: "bold", color: "#333" },

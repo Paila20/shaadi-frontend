@@ -548,7 +548,7 @@ function InfoRow({ icon, label, value }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f8f8f8" },
+  container: { flex: 1, backgroundColor: "#f8f8f8",marginVertical:40 },
   header: { flexDirection: "row", justifyContent: "space-between", padding: 15, backgroundColor: "#00bcd5", alignItems: "center" },
   headerText: { fontSize: 20, fontWeight: "bold", color: "#fff" },
   editBtn: { flexDirection: "row", alignItems: "center", backgroundColor: "#ff5a60", paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20 },

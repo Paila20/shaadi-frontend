@@ -123,7 +123,7 @@ export default function ChatListScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: "#fff",marginTop:40 },
   tabContainer: {
     flexDirection: "row",
     borderBottomWidth: 1,
