@@ -222,14 +222,16 @@ const pickImage = async () => {
           </View>
         </View>
       ))}
-
-      <Button title="Save Changes" onPress={handleSave} />
+       <View style={styles.saveButton}>
+        <Button title="Save Changes" onPress={handleSave} />
+       </View>
+      
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20,marginBottom: 50 },
+  container: { flex: 1, padding: 20,marginVertical: 50 },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -270,147 +272,8 @@ const styles = StyleSheet.create({
     height: "100%",
     color: "#000",
   },
+  saveButton: {
+    marginBottom: 150,
+  }
 });
 
-
-// import React, { useState, useEffect } from "react";
-// import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView, Alert } from "react-native";
-// import * as ImagePicker from "expo-image-picker";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// export default function EditProfile({ route, navigation }) {
-//   const { userId } = route.params;
-//   const [form, setForm] = useState({});
-//   const [loading, setLoading] = useState(false);
-
-//   useEffect(() => {
-//     fetchUserDetails();
-//   }, []);
-
-//   const fetchUserDetails = async () => {
-//     try {
-//       const response = await fetch(`https://shaadi-backend-9ljp.onrender.com/api/users/${userId}`);
-//       const data = await response.json();
-//       setForm(data);
-//     } catch (err) {
-//       console.error("Failed to fetch user details:", err);
-//     }
-//   };
-
-//   const handleChange = (key, value) => {
-//     setForm({ ...form, [key]: value });
-//   };
-
-//   const pickImage = async () => {
-//     const result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-//       allowsEditing: true,
-//       aspect: [1, 1],
-//       quality: 0.7,
-//     });
-
-//     if (!result.canceled) {
-//       handleChange("image", result.assets[0].uri);
-//     }
-//   };
-
-//   const handleSave = async () => {
-//     try {
-//       setLoading(true);
-//       const token = await AsyncStorage.getItem("token");
-
-//       const response = await fetch(`https://shaadi-backend-9ljp.onrender.com/api/users/${userId}`, {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify(form),
-//       });
-
-//       const data = await response.json();
-//       if (response.ok) {
-//         Alert.alert("Success", "Profile updated successfully!");
-//         navigation.navigate("Main", { updatedUser: data });
-//       } else {
-//         Alert.alert("Error", data.msg || "Failed to update profile");
-//       }
-//     } catch (err) {
-//       console.error("Error updating profile:", err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <ScrollView style={styles.container}>
-//       <TouchableOpacity onPress={pickImage}>
-//         <Image
-//           source={{
-//             uri: form.image || "https://img2.shaadi.com/imgs/profiles/60-no-border-female.gif",
-//           }}
-//           style={styles.profileImage}
-//         />
-//         <Text style={styles.changePhotoText}>Change Photo</Text>
-//       </TouchableOpacity>
-
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Name"
-//         value={form.name}
-//         onChangeText={(text) => handleChange("name", text)}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Age"
-//         keyboardType="numeric"
-//         value={form.age?.toString()}
-//         onChangeText={(text) => handleChange("age", text)}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Height (cm)"
-//         keyboardType="numeric"
-//         value={form.height?.toString()}
-//         onChangeText={(text) => handleChange("height", text)}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Religion"
-//         value={form.religion}
-//         onChangeText={(text) => handleChange("religion", text)}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Marital Status"
-//         value={form.maritalStatus}
-//         onChangeText={(text) => handleChange("maritalStatus", text)}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Profession"
-//         value={form.profession}
-//         onChangeText={(text) => handleChange("profession", text)}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Location"
-//         value={form.location}
-//         onChangeText={(text) => handleChange("location", text)}
-//       />
-
-//       <TouchableOpacity style={styles.saveBtn} onPress={handleSave} disabled={loading}>
-//         <Text style={styles.saveBtnText}>{loading ? "Saving..." : "Save Changes"}</Text>
-//       </TouchableOpacity>
-//     </ScrollView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-//   profileImage: { width: 100, height: 100, borderRadius: 50, alignSelf: "center" },
-//   changePhotoText: { textAlign: "center", marginVertical: 10, color: "#00bcd5" },
-//   input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10, borderRadius: 8 },
-//   saveBtn: { backgroundColor: "#ff5a60", padding: 12, borderRadius: 8, alignItems: "center" },
-//   saveBtnText: { color: "#fff", fontWeight: "bold" },
-// });

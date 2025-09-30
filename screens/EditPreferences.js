@@ -816,6 +816,6 @@ const styles = StyleSheet.create({
   rangeDash: { fontSize: 18, fontWeight: "bold" },
   input: { borderWidth: 1, borderColor: "#ccc", padding: 8, borderRadius: 6, marginVertical: 5 },
   pickerWrapper: { borderWidth: 1, borderColor: "#ccc", borderRadius: 6 },
-  buttonContainer: { marginTop: 20 },
+  buttonContainer: { marginTop: 20,marginBottom:50 },
   loader: { flex: 1, justifyContent: "center", alignItems: "center" },
 });

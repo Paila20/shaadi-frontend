@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
+    marginBottom: 40,
   },
   heading: {
     fontSize: 26,
