@@ -1,6 +1,4 @@
 
-
-
 import React, { useState } from "react";
 import {
   Modal,
@@ -12,7 +10,6 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
@@ -20,20 +17,36 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginModal({ visible, onClose }) {
-  const [identifier, setIdentifier] = useState(""); // email or phone
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const navigation = useNavigation();
 
+  // single error state
+  const [errors, setErrors] = useState({
+    identifier: "",
+    password: "",
+    general: "",
+  });
+
+  const navigation = useNavigation();
   const API_BASE_URL = "https://shaadi-backend-9ljp.onrender.com";
 
   const handleLogin = async () => {
-    if (!identifier || !password) {
-      Alert.alert("Error", "Please enter mobile/email and password");
-      return;
+    let newErrors = { identifier: "", password: "", general: "" };
+
+    if (!identifier) {
+      newErrors.identifier = "Mobile/Email is required";
     }
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+
+    // if any error exists, stop login
+    if (newErrors.identifier || newErrors.password) return;
 
     setLoading(true);
     try {
@@ -51,7 +64,8 @@ export default function LoginModal({ visible, onClose }) {
       await AsyncStorage.setItem("userId", user._id);
       await AsyncStorage.setItem("gender", user.gender);
 
-      Alert.alert("Success", `Welcome ${user.name}`);
+      // clear errors on success
+      setErrors({ identifier: "", password: "", general: "" });
 
       onClose();
       navigation.reset({
@@ -60,7 +74,10 @@ export default function LoginModal({ visible, onClose }) {
       });
     } catch (err) {
       console.log("Login error:", err?.response?.data || err.message);
-      Alert.alert("Login Failed", err?.response?.data?.msg || "Unable to login");
+      setErrors((prev) => ({
+        ...prev,
+        general: err?.response?.data?.msg || "Unable to login",
+      }));
     } finally {
       setLoading(false);
     }
@@ -98,23 +115,30 @@ export default function LoginModal({ visible, onClose }) {
           {/* Email / Phone */}
           <Text style={styles.label}>Mobile No. / Email ID</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, errors.identifier && styles.errorBorder]}
             placeholder="Email ID / Mobile No."
             placeholderTextColor="#aaa"
             value={identifier}
-            onChangeText={setIdentifier}
+            onChangeText={(text) => {
+              setIdentifier(text);
+              if (text) setErrors((prev) => ({ ...prev, identifier: "" }));
+            }}
           />
+          {errors.identifier ? <Text style={styles.errorText}>{errors.identifier}</Text> : null}
 
           {/* Password */}
           <Text style={styles.label}>Password</Text>
           <View style={styles.inputWrapper}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, errors.password && styles.errorBorder]}
               placeholder="Password"
               placeholderTextColor="#aaa"
               secureTextEntry={!showPassword}
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(text) => {
+                setPassword(text);
+                if (text) setErrors((prev) => ({ ...prev, password: "" }));
+              }}
             />
             <TouchableOpacity
               style={styles.eyeIcon}
@@ -127,6 +151,7 @@ export default function LoginModal({ visible, onClose }) {
               />
             </TouchableOpacity>
           </View>
+          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
 
           {/* Forgot Password + Stay Logged In Row */}
           <View style={styles.actionRow}>
@@ -151,6 +176,9 @@ export default function LoginModal({ visible, onClose }) {
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
+
+          {/* General Error */}
+          {errors.general ? <Text style={styles.errorText}>{errors.general}</Text> : null}
 
           {/* Login Button */}
           <View style={styles.loginBtnColumn}>
@@ -212,18 +240,24 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 6,
     padding: 12,
-    paddingRight: 40, // extra padding so text doesn't overlap icon
-    marginBottom: 10,
+    paddingRight: 40,
+    marginBottom: 5,
     fontSize: 16,
     backgroundColor: "#fff",
+  },
+  errorBorder: {
+    borderColor: "red",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 13,
+    marginBottom: 8,
   },
   eyeIcon: {
     position: "absolute",
     right: 10,
     top: "50%",
-    transform: [{ translateY: -18 }], // centers vertically
-    // padding: 5,
-    height: "100%",
+    transform: [{ translateY: -18 }],
   },
   actionRow: {
     flexDirection: "row",
